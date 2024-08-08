@@ -7,6 +7,9 @@ import Calendar from "react-calendar";
 //Import useNavigate to redirect the user back to the Home page after booking.
 import { useNavigate } from "react-router-dom";
 
+//custom Alert Component
+import AlertModal from "../components/Alert";
+
 //Define variables for dropdown menus. These could be saved in MongoDB instead to make them updateable in a UI element.
 const services = [
   "Haircut",
@@ -27,6 +30,12 @@ const Booking = () => {
   const [barber, setBarber] = useState("");
   const navigate = useNavigate();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [alertInfo, setAlertInfo] = useState({
+    message: "",
+    isSuccess: false,
+  });
+
   //Handle form submission, preventing all default HTML actions.
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,18 +48,48 @@ const Booking = () => {
     });
 
     //Tell the customer the booking was successful and redirect them back home.
+    //   if (response.ok) {
+    //     alert(
+    //       `Booking for ${name} on ${date.toLocaleDateString()} was successful. We will send an email to ${email} with available times for ${barber}.`
+    //     );
+    //     navigate("/");
+    //   } else {
+    //     alert("Booking failed. Please try again.");
+    //   }
     if (response.ok) {
-      alert(
-        `Booking for ${name} on ${date.toLocaleDateString()} was successful. We will send an email to ${email} with available times for ${barber}.`
-      );
-      navigate("/");
+      setAlertInfo({
+        message: `Booking for ${name} on ${date.toLocaleDateString()} was successful. We will send an email to ${email} with available times for ${barber}.`,
+        isSuccess: true,
+      });
     } else {
-      alert("Booking failed. Please try again.");
+      setAlertInfo({
+        message: "Booking failed. Please try again.",
+        isSuccess: false,
+      });
+    }
+
+    setIsModalOpen(true);
+  };
+
+  const handleAlertClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleAlertConfirm = () => {
+    setIsModalOpen(false);
+    if (alertInfo.isSuccess) {
+      navigate("/");
     }
   };
 
   return (
     <div>
+      <AlertModal
+        isOpen={isModalOpen}
+        message={alertInfo.message}
+        onClose={handleAlertClose}
+        onConfirm={handleAlertConfirm}
+      />
       <h2>Book an Appointment</h2>
       <form onSubmit={handleSubmit}>
         <div>
