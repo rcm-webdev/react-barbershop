@@ -41,7 +41,7 @@ app.get("/api/bookings", async (req, res) => {
 app.post("/api/bookings", async (req, res) => {
   try {
     const { name, email, date, service, barber } = req.body;
-    console.log("Received barber:", barber); // Add this line
+
     const newBooking = new Booking({ name, email, date, service, barber });
     await newBooking.save();
     res.json(newBooking);
