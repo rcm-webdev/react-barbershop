@@ -14,29 +14,29 @@ const Admin = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container mx-auto px-4">
       <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
-      <div className="overflow-x-auto">
-        <table className="table">
+      <div className="overflow-x-auto max-h-[500px] border rounded-lg">
+        <table className="table table-pin-rows table-pin-cols">
           {/* head */}
           <thead>
             <tr>
-              <th>
+              <th className="sticky top-0 bg-base-200 z-10">
                 <label>
                   <input type="checkbox" className="checkbox" />
                 </label>
               </th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Date</th>
-              <th>Service</th>
-              <th>Barber</th>
-              <th></th>
+              <th className="sticky top-0 bg-base-200 z-10">Name</th>
+              <th className="sticky top-0 bg-base-200 z-10">Email</th>
+              <th className="sticky top-0 bg-base-200 z-10">Date</th>
+              <th className="sticky top-0 bg-base-200 z-10">Service</th>
+              <th className="sticky top-0 bg-base-200 z-10">Barber</th>
+              <th className="sticky top-0 bg-base-200 z-10"></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="overflow-y-auto">
             {bookings.map((booking) => (
-              <tr key={booking._id}>
+              <tr key={booking._id} className="bg-base-100">
                 <th>
                   <label>
                     <input type="checkbox" className="checkbox" />
@@ -59,32 +59,14 @@ const Admin = () => {
                 </td>
                 <td>{booking.email}</td>
                 <td>{new Date(booking.date).toLocaleDateString()}</td>
-                <td>
-                  {booking.service}
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    {booking.barber}
-                  </span>
-                </td>
+                <td>{booking.service}</td>
                 <td>{booking.barber}</td>
                 <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
+                  <button className="btn btn-warning btn-xs">unpaid</button>
                 </th>
               </tr>
             ))}
           </tbody>
-          {/* foot */}
-          <tfoot>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Date</th>
-              <th>Service</th>
-              <th>Barber</th>
-              <th></th>
-            </tr>
-          </tfoot>
         </table>
       </div>
     </div>
